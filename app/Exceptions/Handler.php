@@ -43,7 +43,15 @@ class Handler extends ExceptionHandler
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
+     *
+     *
+     * try
+     * https://stackoverflow.com/questions/51065170/laravel-api-how-to-properly-handle-errors
+     * https://www.toptal.com/laravel/restful-laravel-api-tutorial
+     *
+     *
      */
+
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);

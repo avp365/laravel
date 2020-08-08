@@ -10,7 +10,7 @@ class EloquentConstructionRepository implements ConstructionRepositoryInterface
 {
     public function new()
     {
-        return   new Construction();
+        return new Construction();
     }
 
     public function find(int $id)
@@ -35,6 +35,7 @@ class EloquentConstructionRepository implements ConstructionRepositoryInterface
     public function updateFromArray(Construction $construction, array $data)
     {
         $construction->update($data);
+
         return $construction;
     }
 

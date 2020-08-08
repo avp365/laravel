@@ -29,13 +29,15 @@ class EloquentConstructionTypesRepository implements ConstructionTypesRepository
     public function createFromArray(array $data): ConstructionType
     {
         $construction = new ConstructionType();
-        $construction ->create($data);
+        $construction = $construction->create($data);
+
         return $construction;
     }
 
     public function updateFromArray(ConstructionType $construction, array $data)
     {
         $construction->update($data);
+
         return $construction;
     }
 

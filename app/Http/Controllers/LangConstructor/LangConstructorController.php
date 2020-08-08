@@ -42,25 +42,30 @@ class LangConstructorController extends Controller
     {
         $this->authorize(Abilities::UPDATE, Construction::class);
 
-        $parameters  = [
+        $parameters = [
             'langConstructor' => $this->constructionsService->findOrNew($id),
             'langConstructorTypes' => $this->constructionTypesService->getListTypes()
         ];
 
-        return view('lang-constructor.lang-constructor.edit',$parameters);
+        return view('lang-constructor.lang-constructor.edit', $parameters);
     }
 
-    public function save(SaveLangConstructorRequest $request)
+    public function save(SaveLangConstructorRequest $request, $id = null)
     {
 
 
         $this->authorize(Abilities::UPDATE, Construction::class);
-        $data  =  $request->getFormData();
+        $data = $request->getFormData();
 
-        ConstructionCreateProcess::dispatch($data);
-        \Event::dispatch(new ConstructionCreateProcessEvent($data));
 
-         return redirect(route('lang-constructor-index'))->with('status',__('system.saved'));
+        ConstructionCreateProcess::dispatch([
+            'id' => $id,
+            'data' => $data
+        ]);
+
+        \Event::dispatch(new ConstructionCreateProcessEvent($id, $data));
+
+        return redirect(route('lang-constructor-index'))->with('status', __('system.saved'));
 
     }
 
@@ -69,6 +74,6 @@ class LangConstructorController extends Controller
         $this->authorize(Abilities::DELETE, Construction::class);
         $this->constructionsService->delete($id);
 
-        return redirect(route('lang-constructor-index'))->with('status',__('system.deleted'));
+        return redirect(route('lang-constructor-index'))->with('status', __('system.deleted'));
     }
 }

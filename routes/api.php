@@ -13,11 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::name('api.')
+Route::name('api.')->middleware('auth:api')
     ->group(function () {
-        Route::apiResource('constructions', 'Api\LangConstructor\LangConstructorController', [
-            'except' => [
-                'destroy',
-            ],
-        ]);
-});
+        Route::apiResource('constructions', 'Api\LangConstructor\LangConstructorController')->parameters([
+            'constructions' => 'constructions'
+        ]);;
+    });

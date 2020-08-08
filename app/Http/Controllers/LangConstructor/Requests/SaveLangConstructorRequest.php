@@ -20,13 +20,25 @@ class SaveLangConstructorRequest extends FormRequest
 
     public function rules()
     {
-        return [
+
+        $rule = [
             'name' => 'required|string',
             'code' => 'required|string|regex:/^[a-zA-Z0-9\-\_]+$/u|unique:constructions|max:255',
             'hard' => 'required|integer|between:0,100',
             'type_code' => 'required',
             'description' => 'required|string'
         ];
+
+        if ($this->id) {
+            $rule['code'] = 'required|string|regex:/^[a-zA-Z0-9\-\_]+$/u|unique:construction_types,id,' . $this->id . '|max:255';
+        } else {
+            $rule['code'] = 'required|string|regex:/^[a-zA-Z0-9\-\_]+$/u|unique:constructions,id,' . $this->id . '|max:255';
+        }
+
+
+        return $rule;
+
+
     }
 
     public function getFormData()

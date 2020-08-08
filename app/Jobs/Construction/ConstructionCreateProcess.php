@@ -19,17 +19,24 @@ class ConstructionCreateProcess implements ShouldQueue
 
     /** @var User */
 
+    protected $id;
     protected $data;
 
-    public function __construct(array $data)
+
+    public function __construct($arg)
     {
-        $this->data = $data;
+        $this->id = $arg['id'];
+        $this->data = $arg['data'];
 
     }
 
     public function handle(ConstructionsService $constructionsService)
     {
-        $constructionsService->createConstruction($this->data);
+
+
+        $construction = $constructionsService->find($this->id);
+        $constructionsService->createOrUpdateConstruction($construction,$this->data);
+
     }
 
 }

@@ -31,15 +31,17 @@ class LangConstructorTypeController extends Controller
         return view('lang-constructor.lang-constructor-type.edit',['langConstructorType' => $this->constructionTypesService->findOrNew($id)]);
     }
 
-    public function save(SaveLangConstructorTypeRequest $request)
+    public function save(SaveLangConstructorTypeRequest $request,$id = null)
     {
 
         $this->authorize(Abilities::UPDATE, ConstructionType::class);
         $data  =  $request->getFormData();
 
-        $langConstructorType  = $this->constructionTypesService->createConstructionType($data);
+        $constructionType = $this->constructionTypesService->find($id);
 
-        return redirect(route('lang-constructor-type-edit', ['id' => $langConstructorType->id]))->with('status',__('system.saved'));
+        $this->constructionTypesService->createOrUpdateConstructionType($constructionType,$data);
+
+        return redirect(route('lang-constructor-type-index'))->with('status',__('system.saved'));
 
     }
 
