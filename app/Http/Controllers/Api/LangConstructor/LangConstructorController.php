@@ -23,6 +23,42 @@ class LangConstructorController extends Controller
 
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/constructions/",
+     *     summary="Get Constructions all",
+     *     tags={"Constructions"},
+     *     description="Get Constructions by id",
+     *
+     *     @SWG\Info(
+     *         version="1.0.0",
+     *         title="This is my website cool API",
+     *         description="Api description...",
+     *         termsOfService="",
+     *         @SWG\Contact(
+     *             email="contact@mysite.com"
+     *         ),
+     *         @SWG\License(
+     *             name="Private License",
+     *             url="URL to the license"
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="successful operation",
+     *
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Unauthorized user",
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Post is not found",
+     *     )
+     * )
+     */
+
     public function index()
     {
 
@@ -30,6 +66,40 @@ class LangConstructorController extends Controller
         return response()->json(new ConstructionsResource($constructions));
     }
 
+    /**
+     * @SWG\Put(
+     *     path="/constructions/{id}",
+     *     summary="Get Constructions by id",
+     *     tags={"Constructions"},
+     *     description="Put Constructions by id",
+     *     @SWG\Info(
+     *         version="1.0.0",
+     *         title="This is my website cool API",
+     *         description="Api description...",
+     *         termsOfService="",
+     *         @SWG\Contact(
+     *             email="contact@mysite.com"
+     *         ),
+     *         @SWG\License(
+     *             name="Private License",
+     *             url="URL to the license"
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="successful operation",
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Unauthorized user",
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Post is not found",
+     *     )
+     * )
+     *
+     */
 
     public function store(SaveLangConstructorRequest $request)
     {
@@ -42,19 +112,54 @@ class LangConstructorController extends Controller
     }
 
 
+    /**
+     * @SWG\Get(
+     *     path="/constructions/{id}",
+     *     summary="Get Constructions by id",
+     *     tags={"Constructions"},
+     *     description="Get Constructions by id",
+     *     @SWG\Info(
+     *         version="1.0.0",
+     *         title="This is my website cool API",
+     *         description="Api description...",
+     *         termsOfService="",
+     *         @SWG\Contact(
+     *             email="contact@mysite.com"
+     *         ),
+     *         @SWG\License(
+     *             name="Private License",
+     *             url="URL to the license"
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="successful operation",
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Unauthorized user",
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Post is not found",
+     *     )
+     * )
+     *
+     */
+
+
     public function show(Construction $constructions)
     {
         return response()->json(new ConstructionResource($constructions));
     }
 
 
-    public function update(SaveLangConstructorRequest $request,Construction $constructions)
+    public function update(SaveLangConstructorRequest $request, Construction $constructions)
     {
         $data = $request->getFormData();
 
 
-
-        $construction = $this->constructionsService->createOrUpdateConstruction($constructions,$data);
+        $construction = $this->constructionsService->createOrUpdateConstruction($constructions, $data);
 
         return response()->json(new ConstructionResource($construction));
     }

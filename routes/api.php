@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::name('api.')->middleware('auth:api')
+Route::name('api.')->prefix('v1')->middleware('auth:api')
     ->group(function () {
         Route::apiResource('constructions', 'Api\LangConstructor\LangConstructorController')->parameters([
             'constructions' => 'constructions'

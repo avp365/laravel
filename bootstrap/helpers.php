@@ -15,7 +15,7 @@ if (! function_exists('route')) {
 
         $parameters = array_merge([
             'locale' => $locale,
-        ], $parameters);
+        ], (array)$parameters);
 
         return app('url')->route($name, $parameters, $absolute);
     }
