@@ -6,7 +6,7 @@ namespace App\Console\Commands\Cache;
 use App\Services\Constructions\ConstructionsService;
 use Illuminate\Console\Command;
 use GuzzleHttp;
-
+use  Illuminate\Support\Facades\Log;
 class CacheConstructionWarmUp extends Command
 {
 
@@ -46,8 +46,11 @@ class CacheConstructionWarmUp extends Command
     public function handle()
     {
 
+        Log::notice('Testing');
+
         $onlyClear = $this->option('only-clear');
         $this->constructionsService->clearConstructionCache();
+
 
         if(!$onlyClear){
             $client = new GuzzleHttp\Client();
