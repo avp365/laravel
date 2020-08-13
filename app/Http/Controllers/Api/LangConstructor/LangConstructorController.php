@@ -105,7 +105,6 @@ class LangConstructorController extends Controller
     {
 
         $data = $request->getFormData();
-
         $construction = $this->constructionsService->createConstruction($data);
 
         return response()->json(new ConstructionResource($construction));

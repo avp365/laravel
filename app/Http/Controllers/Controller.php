@@ -26,9 +26,4 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function redirectTo()
-    {
-        return \App::getLocale();
-    }
-
 }

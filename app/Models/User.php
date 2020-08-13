@@ -16,6 +16,7 @@ use App\Models\Account;
  * @property string name
  * @property string description
  * @property string type_code
+ * @property string api_token
  * @property Account account
  *
  *

@@ -20,6 +20,8 @@ class ConstructionResource extends JsonResource
             'data' => [
                 'id' => $this->id,
                 'name' => $this->name,
+                'code' => $this->code,
+                'hard' => $this->hard,
                 'description' => $this->description,
                 'type_code' => $this->type_code
             ],

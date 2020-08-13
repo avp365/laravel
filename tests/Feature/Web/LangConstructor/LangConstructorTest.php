@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controller\LangConstructor;
+namespace Tests\Feature\Web\LangConstructor;
 
 use App\Models\Account;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Tests\Generators\AccountGenerator;
 use Tests\Generators\UserGenerator;
 use Tests\TestCase;
 
-class LangConstructorTypeTest extends TestCase
+class LangConstructorTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -30,7 +30,7 @@ class LangConstructorTypeTest extends TestCase
 
 
         $this->actingAs($user)
-            ->get(route('lang-constructor-type-index'))
+            ->get(route('lang-constructor-index'))
             ->assertStatus(200);
     }
 
@@ -43,12 +43,12 @@ class LangConstructorTypeTest extends TestCase
 
 
         $this->actingAs($user)
-            ->get(route('lang-constructor-type-edit'))
+            ->get(route('lang-constructor-edit'))
             ->assertStatus(200);
 
     }
 
-    public function testAccessUserWithoutPrivilegedConstructor()
+    public function testAccessUserConstructor()
     {
 
         $account = AccountGenerator::createAccount();
@@ -56,7 +56,7 @@ class LangConstructorTypeTest extends TestCase
         $user = UserGenerator::createUser(['account_id' =>$account->id]);
 
         $this->actingAs($user)
-            ->get(route('lang-constructor-type-edit'))
+            ->get(route('lang-constructor-edit'))
             ->assertStatus(403);
 
     }
@@ -65,16 +65,19 @@ class LangConstructorTypeTest extends TestCase
     {
 
         $account = AccountGenerator::createAccountAdminUser();
+
         $user = UserGenerator::createUser(['account_id' =>$account->id]);
 
+;
         $langConstructorType = LangConstructorTypeGenerator::createConstructorType(['created_account_id' => $account->id]);
+        $langConstructor = LangConstructorGenerator::makeConstructor(['type_code'=>$langConstructorType->code,'created_account_id' => $account->id]);
 
         $this->actingAs($user)
-            ->post(route('lang-constructor-type-save'), $langConstructorType->toArray())
+            ->post(route('lang-constructor-save'), $langConstructor->toArray())
             ->assertStatus(302);
 
-        $this->assertDatabaseHas('construction_types', [
-            'code' => $langConstructorType->code,
+        $this->assertDatabaseHas('constructions', [
+            'code' => $langConstructor->code,
         ]);
 
     }
@@ -85,25 +88,24 @@ class LangConstructorTypeTest extends TestCase
 
     public function testUpdateConstructorWonUpdateWithTheSameName()
     {
-
-
-
         $account = AccountGenerator::createAccountAdminUser();
 
         $user = UserGenerator::createUser(['account_id' => $account->id]);
 
 
-        $langConstructorType = LangConstructorTypeGenerator::makeConstructorType(['created_account_id' => $account->id]);
+        $langConstructorType = LangConstructorTypeGenerator::createConstructorType(['created_account_id' => $account->id]);
+        $langConstructor = LangConstructorGenerator::makeConstructor(['type_code'=>$langConstructorType->code,'created_account_id' => $account->id]);
 
-        $langConstructorType->name = 'some name';
+        $langConstructor->name = 'some name';
 
         $this->actingAs($user)
-            ->post(route('lang-constructor-type-save'), $langConstructorType->toArray())
+            ->post(route('lang-constructor-save'), $langConstructor->toArray())
             ->assertStatus(302);
 
-        $this->assertDatabaseHas('construction_types', [
-            'name' => $langConstructorType->name,
+        $this->assertDatabaseHas('constructions', [
+            'name' => $langConstructor->name,
         ]);
     }
+
 
 }

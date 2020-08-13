@@ -43,6 +43,7 @@ class SaveLangConstructorRequest extends FormRequest
 
     public function getFormData()
     {
+
         $data = $this->request->all();
         $data['created_account_id'] = auth()->user()->account->id;
 
